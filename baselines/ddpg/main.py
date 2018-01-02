@@ -120,6 +120,7 @@ def parse_args():
     boolean_flag(parser, 'perform', default=False)
     boolean_flag(parser, 'use-expert', default=False)
     boolean_flag(parser, 'save-networks', default=False)
+    parser.add_argument('--log-dir', type=str, default=None)
 
     args = parser.parse_args()
     # we don't directly specify timesteps for this script, so make sure that if we do specify them
@@ -135,7 +136,11 @@ if __name__ == '__main__':
     args = parse_args()
     if MPI.COMM_WORLD.Get_rank() == 0:
         # print(args['env_id'])
-        dir = os.path.join('./logs/', args['env_id'], datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f"))
+        if args['log_dir'] is None:
+            dir = os.path.join('./logs/', args['env_id'], datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f"))
+        else:
+            dir = os.path.join('./logs/', args['env_id'], args['log_dir'])
         logger.configure(dir=dir)
+        del args['log_dir']
     # Run actual script.
     run(**args)

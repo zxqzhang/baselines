@@ -127,7 +127,7 @@ class Model(object):
         logf_bc = tf.log(f + eps) # / (f_old + eps)
         check_shape([adv_bc, logf_bc], [[nenvs * nsteps, nact]]*2)
         gain_bc = tf.reduce_sum(logf_bc * tf.stop_gradient(adv_bc * tf.nn.relu(1.0 - (c / (rho + eps))) * f), axis = 1) #IMP: This is sum, as expectation wrt f
-        loss_bc= -tf.reduce_mean(gain_bc)
+        loss_bc = -tf.reduce_mean(gain_bc)
 
         loss_policy = loss_f + loss_bc
 

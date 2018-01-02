@@ -56,6 +56,7 @@ class Monitor(Wrapper):
             raise RuntimeError("Tried to step environment that needs reset")
         ob, rew, done, info = self.env.step(action)
         self.rewards.append(rew)
+        self.total_steps += 1
         if done:
             self.needs_reset = True
             eprew = sum(self.rewards)
@@ -68,7 +69,6 @@ class Monitor(Wrapper):
             self.episode_rewards.append(eprew)
             self.episode_lengths.append(eplen)
             info['episode'] = epinfo
-        self.total_steps += 1
         return (ob, rew, done, info)
 
     def close(self):

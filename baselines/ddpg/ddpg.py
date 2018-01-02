@@ -171,8 +171,12 @@ class DDPG(object):
     def setup_actor_optimizer(self):
         logger.info('setting up actor optimizer')
         self.actor_loss = -tf.reduce_mean(self.critic_with_actor_tf)
+
         if self.expert is not None:
-            self.expert_actor_loss = self.expert.actor_loss
+            self.expert_actor_loss = self.expert.actor_loss + self.actor_loss
+
+        # self.expert_actor_loss = self.actor_loss
+
         actor_shapes = [var.get_shape().as_list() for var in self.actor.trainable_vars]
         actor_nb_params = sum([reduce(lambda x, y: x * y, shape) for shape in actor_shapes])
         logger.info('  actor shapes: {}'.format(actor_shapes))
@@ -292,7 +296,7 @@ class DDPG(object):
         if self.normalize_observations:
             self.obs_rms.update(np.array([obs0]))
 
-    def train(self):
+    def train(self, pretrain):
         # Get a batch.
         batch = self.memory.sample(batch_size=self.batch_size)
 
@@ -325,11 +329,12 @@ class DDPG(object):
             })
 
         # Get all gradients and perform a synced update.
-        if self.expert is not None and self.training_step < self.expert_steps:
+        if self.expert is not None and pretrain:
+            # self.training_step < self.expert_steps:
             expert_batch = self.expert.sample(batch_size=self.batch_size)
             ops = [self.training_step_run, self.expert_actor_grads, self.expert_actor_loss,
-                   self.expert_critic_grads, self.expert_critic_loss]
-            training_step, actor_grads, actor_loss, critic_grads, critic_loss = self.sess.run(ops, feed_dict={
+                   self.expert_critic_grads, self.expert_critic_loss, self.expert.dist]
+            training_step, actor_grads, actor_loss, critic_grads, critic_loss, self.dist = self.sess.run(ops, feed_dict={
                 self.obs0: batch['obs0'],
                 self.actions: batch['actions'],
                 self.critic_target: target_Q,
@@ -343,15 +348,17 @@ class DDPG(object):
                 self.actions: batch['actions'],
                 self.critic_target: target_Q,
             })
+            self.dist = 0
         self.actor_optimizer.update(actor_grads, stepsize=self.actor_lr)
         self.critic_optimizer.update(critic_grads, stepsize=self.critic_lr)
+        self.training_step = training_step[0]
+
         if self.save_networks:
-            self.training_step = training_step[0]
             if self.training_step.astype(int) % self.save_steps == 0:
                 logger.info('Saved network with {} training steps'.format(self.training_step.astype(int)))
                 self.saver.save(self.sess, self.ckp_dir, global_step=self.training_step.astype(int))
 
-        return critic_loss, actor_loss
+        return critic_loss, actor_loss, self.dist
 
     def initialize(self, sess, saver, ckp_dir, save_steps, expert_steps):
         self.sess = sess
@@ -359,6 +366,7 @@ class DDPG(object):
         self.ckp_dir = ckp_dir
         self.save_steps = save_steps
         self.expert_steps = expert_steps
+
         self.sess.run(tf.global_variables_initializer())
         self.actor_optimizer.sync()
         self.critic_optimizer.sync()
@@ -387,7 +395,6 @@ class DDPG(object):
         names = self.stats_names[:]
         assert len(names) == len(values)
         stats = dict(zip(names, values))
-
         if self.param_noise is not None:
             stats = {**stats, **self.param_noise.get_stats()}
 

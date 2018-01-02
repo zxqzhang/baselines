@@ -52,6 +52,10 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         obs = env.reset()
         if eval_env is not None:
             eval_obs = eval_env.reset()
+        if expert is None:
+            pretrain = False
+        else:
+            pretrain = True
         done = False
         episode_reward = 0.
         episode_step = 0
@@ -113,6 +117,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                     # Train.
                     epoch_actor_losses = []
                     epoch_critic_losses = []
+                    epoch_dists = []
                     epoch_adaptive_distances = []
                     for t_train in range(nb_train_steps):
                         # Adapt param noise, if necessary.
@@ -120,9 +125,10 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                             distance = agent.adapt_param_noise()
                             epoch_adaptive_distances.append(distance)
 
-                        cl, al = agent.train()
+                        cl, al, d = agent.train(pretrain)
                         epoch_critic_losses.append(cl)
                         epoch_actor_losses.append(al)
+                        epoch_dists.append(d)
                         agent.update_target_net()
 
                 # Evaluate.
@@ -173,6 +179,12 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
 
             # Rollout statistics.
             if not perform:
+                epoch_ave_dist = mpi_mean(epoch_dists)
+                # if epoch_ave_dist < 0.01 and pretrain:
+                if epoch >= 60 and pretrain:
+                    pretrain = False
+                    logger.info('Stoped pretrain at epoch {}'.format(epoch))
+
                 combined_stats['rollout/return'] = mpi_mean(epoch_episode_rewards)
                 combined_stats['rollout/return_history'] = mpi_mean(np.mean(episode_rewards_history))
                 combined_stats['rollout/episode_steps'] = mpi_mean(epoch_episode_steps)
@@ -184,6 +196,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                 # Train statistics.
                 combined_stats['train/loss_actor'] = mpi_mean(epoch_actor_losses)
                 combined_stats['train/loss_critic'] = mpi_mean(epoch_critic_losses)
+                combined_stats['train/dist'] = epoch_ave_dist
                 combined_stats['train/param_noise_distance'] = mpi_mean(epoch_adaptive_distances)
 
             # Evaluation statistics.
