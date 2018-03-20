@@ -9,6 +9,8 @@
 /build
 keys/
 
+/data/
+
 # Virtualenv
 /env
 
