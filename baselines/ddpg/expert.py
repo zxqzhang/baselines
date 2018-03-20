@@ -41,3 +41,4 @@ class Expert:
             tf.clip_by_value(normalized_q_with_expert_actor, return_range[0], return_range[1]), ret_rms)
         self.critic_loss = tf.reduce_mean(self.Q_with_expert_actor - self.Q_with_expert_data)
         self.actor_loss = -tf.reduce_mean(self.Q_with_expert_actor)
+        self.dist = tf.reduce_mean(self.Q_with_expert_data - self.Q_with_expert_actor)

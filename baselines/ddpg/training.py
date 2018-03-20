@@ -35,7 +35,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         saver = tf.train.Saver()
     else:
         saver = None
-    
+
     step = 0
     episode = 0
     eval_episode_rewards_history = deque(maxlen=100)
@@ -89,6 +89,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                             env.render()
                         assert max_action.shape == action.shape
                         new_obs, r, done, info = env.step(max_action * action)  # scale for execution in env (as far as DDPG is concerned, every action is in [-1, 1])
+
                         t += 1
                         if rank == 0 and render:
                             env.render()
@@ -212,7 +213,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                 combined_stats['total/episodes'] = mpi_mean(episodes)
                 combined_stats['total/epochs'] = epoch + 1
                 combined_stats['total/steps'] = t
-            
+
             for key in sorted(combined_stats.keys()):
                 logger.record_tabular(key, combined_stats[key])
             logger.dump_tabular()
@@ -225,4 +226,3 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                 if eval_env and hasattr(eval_env, 'get_state'):
                     with open(os.path.join(logdir, 'eval_env_state.pkl'), 'wb') as f:
                         pickle.dump(eval_env.get_state(), f)
-

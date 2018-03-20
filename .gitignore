@@ -22,6 +22,7 @@ logs/
 log/
 expert/
 saved_networks/
+saved_networks*/
 
 .ipynb_checkpoints
 ghostdriver.log
