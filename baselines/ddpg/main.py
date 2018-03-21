@@ -121,7 +121,8 @@ def parse_args():
     boolean_flag(parser, 'use-expert', default=False)
     boolean_flag(parser, 'save-networks', default=False)
     parser.add_argument('--log-dir', type=str, default=None)
-
+    boolean_flag(parser, 'supervise', default=False)
+ 
     args = parser.parse_args()
     # we don't directly specify timesteps for this script, so make sure that if we do specify them
     # they agree with the other parameters

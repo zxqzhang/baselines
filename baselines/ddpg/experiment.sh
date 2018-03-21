@@ -32,6 +32,6 @@
 # mv ./saved_networks/* ./data/Walker2d-v1/saved_networks/
 # python3 main.py --use-expert --evaluation --env-id Walker2d-v1 --log-dir expert
 
-python3 main.py --use-expert --evaluation --env-id Hopper-v1 --log-dir expert
+python3 main.py --use-expert --evaluation --supervise --env-id HalfCheetah-v1 --log-dir supervise
 
 # not working: humanoidstandup ant
