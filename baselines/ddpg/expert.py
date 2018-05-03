@@ -1,5 +1,6 @@
 import pickle
 import tensorflow as tf
+import numpy as np
 from baselines.ddpg.memory import Memory
 from baselines.ddpg.ddpg import normalize, denormalize
 
@@ -20,7 +21,28 @@ class Expert:
         expert_file.close()
         for episode_sample in expert_data:
             for step_sample in episode_sample:
-                self.memory.append(step_sample[0], step_sample[1], step_sample[2], step_sample[3], step_sample[4])
+                self.memory.append(step_sample[0], step_sample[1], step_sample[2], step_sample[3],
+                                   step_sample[4])
+
+    def load_file_trpo(self, file_dir):
+        self.file_dir = file_dir
+        traj_data = np.load(file_dir)
+        if self.limit == None:
+            obs = traj_data["obs"][:]
+            acs = traj_data["acs"][:]
+        else:
+            obs = traj_data["obs"][:self.limit]
+            acs = traj_data["acs"][:self.limit]
+        episode_num = len(acs)
+        step_num = 0
+        for i in range(episode_num):
+            step_num += len(acs[i])
+        #print("Total Step is:", step_num, "\nTotal_Episode is:", episode_num)
+        for i in range(episode_num):
+            episode_len = len(acs[i])
+            for j in range(episode_len):
+                done = True if (j == episode_len - 1) else False
+                self.memory.append(obs[i][j], acs[i][j], 0., 0., done)
 
     def sample(self, batch_size):
         return self.memory.sample(batch_size)
