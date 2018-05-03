@@ -16,7 +16,7 @@ from mpi4py import MPI
 def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, param_noise, actor, critic,
     normalize_returns, normalize_observations, critic_l2_reg, actor_lr, critic_lr, action_noise,
     popart, gamma, clip_norm, nb_train_steps, nb_rollout_steps, nb_eval_steps, batch_size, memory,
-    tau=0.01, eval_env=None, param_noise_adaption_interval=50, perform=False, expert=None, save_networks=False, supervise=False):
+    tau=0.01, eval_env=None, param_noise_adaption_interval=50, perform=False, expert=None, save_networks=False, supervise=False, pre_epoch=60):
     rank = MPI.COMM_WORLD.Get_rank()
 
     assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
@@ -182,7 +182,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
             if not perform:
                 epoch_ave_dist = mpi_mean(epoch_dists)
                 # if epoch_ave_dist < 0.01 and pretrain:
-                if epoch >= 60 and pretrain:
+                if epoch >= pre_epoch and pretrain:
                     pretrain = False
                     logger.info('Stoped pretrain at epoch {}'.format(epoch))
 
