@@ -27,17 +27,19 @@ class Expert:
     def load_file_trpo(self, file_dir):
         self.file_dir = file_dir
         traj_data = np.load(file_dir)
-        if self.limit == None:
+        if self.limit is None:
             obs = traj_data["obs"][:]
             acs = traj_data["acs"][:]
         else:
             obs = traj_data["obs"][:self.limit]
             acs = traj_data["acs"][:self.limit]
         episode_num = len(acs)
+        '''
         step_num = 0
         for i in range(episode_num):
             step_num += len(acs[i])
-        #print("Total Step is:", step_num, "\nTotal_Episode is:", episode_num)
+        print("Total Step is:", step_num, "\nTotal_Episode is:", episode_num)
+        '''
         for i in range(episode_num):
             episode_len = len(acs[i])
             for j in range(episode_len):
