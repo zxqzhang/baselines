@@ -19,7 +19,7 @@ import tensorflow as tf
 from mpi4py import MPI
 
 
-def run(env_id, seed, noise_type, layer_norm, evaluation, perform, use_expert, expert_dir, use_trpo_expert, **kwargs):
+def run(env_id, seed, noise_type, layer_norm, evaluation, perform, use_expert, expert_dir, use_trpo_expert, expert_limit, **kwargs):
     # Configure things.
     rank = MPI.COMM_WORLD.Get_rank()
     if rank != 0:
@@ -64,13 +64,13 @@ def run(env_id, seed, noise_type, layer_norm, evaluation, perform, use_expert, e
     critic = Critic(layer_norm=layer_norm)
     actor = Actor(nb_actions, layer_norm=layer_norm)
     if use_expert:
-        expert = Expert(limit=int(1e6), env=env)
+        expert = Expert(limit=expert_limit, env=env)
         if expert_dir is None:
             expert_dir = os.path.join('./expert', env.env.spec.id) + '/expert.pkl'
         expert.load_file(expert_dir)
     elif use_trpo_expert:
         assert expert_dir is not None
-        expert = Expert(limit=int(1e6), env=env)
+        expert = Expert(limit=expert_limit, env=env)
         expert.load_file_trpo(expert_dir)
     else:
         expert = None
@@ -125,6 +125,7 @@ def parse_args():
     boolean_flag(parser, 'perform', default=False)
     boolean_flag(parser, 'use-expert', default=False)
     boolean_flag(parser, 'use-trpo-expert', default=False)
+    parser.add_argument('--expert-limit', type=int, default=int(1e6))
     boolean_flag(parser, 'save-networks', default=False)
     parser.add_argument('--log-dir', type=str, default=None)
     boolean_flag(parser, 'supervise', default=False)

@@ -67,6 +67,6 @@ class Expert:
             self.actor_loss = tf.nn.l2_loss(self.expert_action-expert_actor)
             self.critic_loss = 0
         else:
-            self.critic_loss = tf.reduce_mean(self.Q_with_expert_actor - self.Q_with_expert_data)
+            self.critic_loss = tf.reduce_mean(tf.nn.relu(self.Q_with_expert_actor - self.Q_with_expert_data))
             self.actor_loss = -tf.reduce_mean(self.Q_with_expert_actor)
         self.dist = tf.reduce_mean(self.Q_with_expert_data - self.Q_with_expert_actor)
