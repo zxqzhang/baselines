@@ -1,0 +1,1 @@
+python3 main.py --use-trpo-expert --evaluation --env-id HalfCheetah-v1 --expert-dir /home/zhangxiaoqin/Projects/conda/baselines/data/trpo_expert/deterministic.trpo.HalfCheetah.0.00.npz --critic-only --pre-epoch 120 --log-dir trpoExpert_critic_only4

@@ -129,6 +129,8 @@ def parse_args():
     boolean_flag(parser, 'save-networks', default=False)
     parser.add_argument('--log-dir', type=str, default=None)
     boolean_flag(parser, 'supervise', default=False)
+    boolean_flag(parser, 'actor-only', default=False)
+    boolean_flag(parser, 'critic-only', default=False)
     parser.add_argument('--pre-epoch', type=int, default=60)
     parser.add_argument('--expert-dir', type=str, default=None)
  

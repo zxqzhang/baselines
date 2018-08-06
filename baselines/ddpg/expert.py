@@ -49,7 +49,7 @@ class Expert:
     def sample(self, batch_size):
         return self.memory.sample(batch_size)
 
-    def set_tf(self, actor, critic, obs_rms, ret_rms, observation_range, return_range, supervise=False):
+    def set_tf(self, actor, critic, obs_rms, ret_rms, observation_range, return_range, supervise=False, critic_only=False, actor_only=False):
         self.expert_state = tf.placeholder(tf.float32, shape=(None,) + self.env.observation_space.shape,
                                            name='expert_state')
         self.expert_action = tf.placeholder(tf.float32, shape=(None,) + self.env.action_space.shape,
@@ -69,4 +69,8 @@ class Expert:
         else:
             self.critic_loss = tf.reduce_mean(tf.nn.relu(self.Q_with_expert_actor - self.Q_with_expert_data))
             self.actor_loss = -tf.reduce_mean(self.Q_with_expert_actor)
+            if critic_only:
+                self.actor_loss = 0
+            if actor_only:
+                self.critic_loss = 0
         self.dist = tf.reduce_mean(self.Q_with_expert_data - self.Q_with_expert_actor)
