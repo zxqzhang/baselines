@@ -19,10 +19,14 @@ class Expert:
         expert_file = open(self.file_dir, 'rb')
         expert_data = pickle.load(expert_file)
         expert_file.close()
+        k = 0
         for episode_sample in expert_data:
             for step_sample in episode_sample:
-                self.memory.append(step_sample[0], step_sample[1], step_sample[2], step_sample[3],
-                                   step_sample[4])
+                k = k+1
+                if k <= self.limit:
+                    self.memory.append(step_sample[0], step_sample[1], step_sample[2], step_sample[3], step_sample[4])
+                else:
+                    return
 
     def load_file_trpo(self, file_dir):
         self.file_dir = file_dir
@@ -74,3 +78,5 @@ class Expert:
             if actor_only:
                 self.critic_loss = 0
         self.dist = tf.reduce_mean(self.Q_with_expert_data - self.Q_with_expert_actor)
+        self.actor_loss = self.actor_loss
+        self.critic_loss = self.critic_loss

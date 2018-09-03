@@ -76,6 +76,9 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         small_buffer = []
         big_buffer = []
         for epoch in range(nb_epochs):
+            if epoch >= pre_epoch and pretrain:
+                pretrain = False
+                logger.info('Stoped pretrain at epoch {}'.format(epoch))
             for cycle in range(nb_epoch_cycles):
                 if not perform:
                     # Perform rollouts.
@@ -182,9 +185,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
             if not perform:
                 epoch_ave_dist = mpi_mean(epoch_dists)
                 # if epoch_ave_dist < 0.01 and pretrain:
-                if epoch >= pre_epoch and pretrain:
-                    pretrain = False
-                    logger.info('Stoped pretrain at epoch {}'.format(epoch))
+                
 
                 combined_stats['rollout/return'] = mpi_mean(epoch_episode_rewards)
                 combined_stats['rollout/return_history'] = mpi_mean(np.mean(episode_rewards_history))

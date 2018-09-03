@@ -1,0 +1,11 @@
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_001 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 1 --actor-lr 0.00001 --critic-lr 0.0001 &
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_002 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 2 --actor-lr 0.00001 --critic-lr 0.0001 &
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_003 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 3 --actor-lr 0.00001 --critic-lr 0.0001 &
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_004 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 4 --actor-lr 0.00001 --critic-lr 0.0001 &
+python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_005 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 5 --actor-lr 0.00001 --critic-lr 0.0001
+
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_006 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 6 --actor-lr 0.00001 --critic-lr 0.0001 &
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_007 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 7 --actor-lr 0.00001 --critic-lr 0.0001 &
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_008 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 8 --actor-lr 0.00001 --critic-lr 0.0001 &
+nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_009 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 9 --actor-lr 0.00001 --critic-lr 0.0001 &
+python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_1_500pre_010 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2/expert.pkl --pre-epoch 500 --seed 10 --actor-lr 0.00001 --critic-lr 0.0001
