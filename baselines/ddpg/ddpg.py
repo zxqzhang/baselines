@@ -58,7 +58,8 @@ class DDPG(object):
         gamma=0.99, tau=0.001, normalize_returns=False, enable_popart=False, normalize_observations=True,
         batch_size=128, observation_range=(-5., 5.), action_range=(-1., 1.), return_range=(-np.inf, np.inf),
         adaptive_param_noise=True, adaptive_param_noise_policy_threshold=.1,
-        critic_l2_reg=0., actor_lr=1e-4, critic_lr=1e-3, clip_norm=None, reward_scale=1., expert=None, save_networks=False, supervise=False, actor_only=False, critic_only=False):
+        critic_l2_reg=0., actor_lr=1e-4, critic_lr=1e-3, clip_norm=None, reward_scale=1., expert=None, save_networks=False,
+        supervise=False, actor_only=False, critic_only=False, both_ours_sup=False):
         # Inputs.
         self.obs0 = tf.placeholder(tf.float32, shape=(None,) + observation_shape, name='obs0')
         self.obs1 = tf.placeholder(tf.float32, shape=(None,) + observation_shape, name='obs1')
@@ -94,6 +95,7 @@ class DDPG(object):
         self.supervise = supervise
         self.actor_only = actor_only
         self.critic_only = critic_only
+        self.both_ours_sup = both_ours_sup
 
         # Observation normalization.
         if self.normalize_observations:
@@ -134,7 +136,7 @@ class DDPG(object):
 
         if self.expert is not None:
             self.expert.set_tf(actor=actor, critic=critic, obs_rms=self.obs_rms, ret_rms=self.ret_rms,
-                               observation_range=self.observation_range, return_range=self.return_range, supervise=self.supervise, actor_only=self.actor_only, critic_only=self.critic_only)
+                               observation_range=self.observation_range, return_range=self.return_range, supervise=self.supervise, actor_only=self.actor_only, critic_only=self.critic_only, both_ours_sup=self.both_ours_sup)
 
         training_step = tf.get_variable('training_step', shape=[1], initializer=tf.ones_initializer)
         self.training_step_run = training_step.assign(training_step + 1)
