@@ -59,7 +59,7 @@ class DDPG(object):
         batch_size=128, observation_range=(-5., 5.), action_range=(-1., 1.), return_range=(-np.inf, np.inf),
         adaptive_param_noise=True, adaptive_param_noise_policy_threshold=.1,
         critic_l2_reg=0., actor_lr=1e-4, critic_lr=1e-3, clip_norm=None, reward_scale=1., expert=None, save_networks=False,
-        supervise=False, actor_only=False, critic_only=False, both_ours_sup=False):
+        supervise=False, actor_only=False, critic_only=False, both_ours_sup=False, gail=False, pofd=False):
         # Inputs.
         self.obs0 = tf.placeholder(tf.float32, shape=(None,) + observation_shape, name='obs0')
         self.obs1 = tf.placeholder(tf.float32, shape=(None,) + observation_shape, name='obs1')
@@ -96,6 +96,8 @@ class DDPG(object):
         self.actor_only = actor_only
         self.critic_only = critic_only
         self.both_ours_sup = both_ours_sup
+        self.gail=gail
+        self.pofd=pofd
 
         # Observation normalization.
         if self.normalize_observations:
@@ -135,8 +137,10 @@ class DDPG(object):
         self.target_Q = self.rewards + (1. - self.terminals1) * gamma * Q_obs1
 
         if self.expert is not None:
-            self.expert.set_tf(actor=actor, critic=critic, obs_rms=self.obs_rms, ret_rms=self.ret_rms,
-                               observation_range=self.observation_range, return_range=self.return_range, supervise=self.supervise, actor_only=self.actor_only, critic_only=self.critic_only, both_ours_sup=self.both_ours_sup)
+            self.expert.set_tf(actor=actor, critic=critic, obs0=normalized_obs0, actions=self.actions, obs_rms=self.obs_rms, ret_rms=self.ret_rms,
+                               observation_range=self.observation_range, return_range=self.return_range, 
+                               supervise=self.supervise, actor_only=self.actor_only, critic_only=self.critic_only, 
+                               both_ours_sup=self.both_ours_sup, gail=self.gail, pofd=self.pofd)
 
         training_step = tf.get_variable('training_step', shape=[1], initializer=tf.ones_initializer)
         self.training_step_run = training_step.assign(training_step + 1)
@@ -181,6 +185,10 @@ class DDPG(object):
 
         if self.expert is not None:
             self.expert_actor_loss = self.expert.actor_loss + self.actor_loss
+            if self.gail:
+                self.expert_actor_loss = self.expert.actor_loss
+            if self.pofd:
+                self.expert_actor_loss = self.expert.actor_loss + self.actor_loss
 
         # self.expert_actor_loss = self.actor_loss
 
@@ -213,6 +221,10 @@ class DDPG(object):
 
         if self.expert is not None:
             self.expert_critic_loss = self.expert.critic_loss + self.critic_loss
+            if self.gail:
+                self.expert_critic_loss = self.expert.discriminator_loss
+            if self.pofd:
+                self.expert_critic_loss = self.expert.discriminator_loss + self.critic_loss
         critic_shapes = [var.get_shape().as_list() for var in self.critic.trainable_vars]
         critic_nb_params = sum([reduce(lambda x, y: x * y, shape) for shape in critic_shapes])
         logger.info('  critic shapes: {}'.format(critic_shapes))
@@ -340,8 +352,8 @@ class DDPG(object):
             # self.training_step < self.expert_steps:
             expert_batch = self.expert.sample(batch_size=self.batch_size)
             ops = [self.training_step_run, self.expert_actor_grads, self.expert_actor_loss,
-                   self.expert_critic_grads, self.expert_critic_loss, self.expert.dist]
-            training_step, actor_grads, actor_loss, critic_grads, critic_loss, self.dist = self.sess.run(ops, feed_dict={
+                   self.expert_critic_grads, self.expert_critic_loss]
+            training_step, actor_grads, actor_loss, critic_grads, critic_loss = self.sess.run(ops, feed_dict={
                 self.obs0: batch['obs0'],
                 self.actions: batch['actions'],
                 self.critic_target: target_Q,
@@ -355,7 +367,6 @@ class DDPG(object):
                 self.actions: batch['actions'],
                 self.critic_target: target_Q,
             })
-            self.dist = 0
         self.actor_optimizer.update(actor_grads, stepsize=self.actor_lr)
         self.critic_optimizer.update(critic_grads, stepsize=self.critic_lr)
         self.training_step = training_step[0]
@@ -365,7 +376,7 @@ class DDPG(object):
                 logger.info('Saved network with {} training steps'.format(self.training_step.astype(int)))
                 self.saver.save(self.sess, self.ckp_dir, global_step=self.training_step.astype(int))
 
-        return critic_loss, actor_loss, self.dist
+        return critic_loss, actor_loss
 
     def initialize(self, sess, saver, ckp_dir, save_steps, expert_steps):
         self.sess = sess

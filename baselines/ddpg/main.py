@@ -132,6 +132,8 @@ def parse_args():
     boolean_flag(parser, 'actor-only', default=False)
     boolean_flag(parser, 'critic-only', default=False)
     boolean_flag(parser, 'both-ours-sup', default=False)
+    boolean_flag(parser, 'gail', default=False)
+    boolean_flag(parser, 'pofd', default=False)
     parser.add_argument('--pre-epoch', type=int, default=60)
     parser.add_argument('--expert-dir', type=str, default=None)
  

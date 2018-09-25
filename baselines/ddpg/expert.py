@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 from baselines.ddpg.memory import Memory
 from baselines.ddpg.ddpg import normalize, denormalize
+from baselines.ddpg.models import Discriminator
 
 
 class Expert:
@@ -53,7 +54,8 @@ class Expert:
     def sample(self, batch_size):
         return self.memory.sample(batch_size)
 
-    def set_tf(self, actor, critic, obs_rms, ret_rms, observation_range, return_range, supervise=False, critic_only=False, actor_only=False, both_ours_sup = False):
+    def set_tf(self, actor, critic, obs0, actions, obs_rms, ret_rms, observation_range, return_range, supervise=False, critic_only=False,
+               actor_only=False, both_ours_sup = False, gail = False, pofd = False):
         self.expert_state = tf.placeholder(tf.float32, shape=(None,) + self.env.observation_space.shape,
                                            name='expert_state')
         self.expert_action = tf.placeholder(tf.float32, shape=(None,) + self.env.action_space.shape,
@@ -77,7 +79,14 @@ class Expert:
                 self.actor_loss = 0
             if actor_only:
                 self.critic_loss = 0
-        self.dist = tf.reduce_mean(self.Q_with_expert_data - self.Q_with_expert_actor)
+        #self.dist = tf.reduce_mean(self.Q_with_expert_data - self.Q_with_expert_actor)
         if both_ours_sup:
             self.actor_loss = tf.nn.l2_loss(self.expert_action-expert_actor) - tf.reduce_mean(self.Q_with_expert_actor)
             self.critic_loss = tf.reduce_mean(tf.nn.relu(self.Q_with_expert_actor - self.Q_with_expert_data))
+            
+        if gail or pofd:
+            discriminator = Discriminator()
+            d_with_expert_data = discriminator(normalized_state, self.expert_action)
+            d_with_gen_data = discriminator(obs0, actions, reuse=True)
+            self.discriminator_loss = tf.reduce_mean(tf.log(d_with_gen_data))+tf.reduce_mean(tf.log(1-d_with_expert_data))
+            self.actor_loss = tf.reduce_mean(tf.log(d_with_gen_data))

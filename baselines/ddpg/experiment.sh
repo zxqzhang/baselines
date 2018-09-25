@@ -1,70 +1,61 @@
-# python3 main.py --save-networks --evaluation --env-id HalfCheetah-v1 --log-dir baseline
-# python3 main.py --perform --env-id HalfCheetah-v1 --log-dir perform
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --log-dir expert
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_001 --seed 234 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_002 --seed 4563 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_003 --seed 8274 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_004 --seed 9981 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_005 --seed 19982 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_006 --seed 77819 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_007 --seed 99818 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_008 --seed 88982 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_009 --seed 99991 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_010 --seed 199918 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_011 --seed 222918 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_012 --seed 381771 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_013 --seed 200928 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_014 --seed 999182 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_015 --seed 827466 --actor-lr 0.0001 --critic-lr 0.001 &
+#python3 main.py --evaluation --env-id Hopper-v2 --nb-epochs 1500 --log-dir baseline_4_long_016 --seed 881773 --actor-lr 0.0001 --critic-lr 0.001
 
-# python3 main.py --save-networks --evaluation --env-id InvertedPendulum-v1 --log-dir baseline
-# python3 main.py --perform --env-id InvertedPendulum-v1 --log-dir perform
-# python3 main.py --use-expert --evaluation --env-id InvertedPendulum-v1 --log-dir expert
 
-# python3 main.py --save-networks --evaluation --env-id Reacher-v1 --log-dir baseline
-# python3 main.py --perform --env-id Reacher-v1 --log-dir perform
-# python3 main.py --use-expert --evaluation --env-id Reacher-v1 --log-dir expert
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low001 --seed 234 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low002 --seed 4563 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low003 --seed 8274 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low004 --seed 9981 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low005 --seed 19982 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low006 --seed 77819 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low007 --seed 99818 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low008 --seed 88982 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low009 --seed 99991 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low010 --seed 199918 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low011 --seed 222918 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low012 --seed 381771 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low013 --seed 200928 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low014 --seed 999182 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low015 --seed 827466 --actor-lr 0.0001 --critic-lr 0.001 &
+#python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --supervise --log-dir ppoexpert_sup_1_25pre_4_long_low016 --seed 881773 --actor-lr 0.0001 --critic-lr 0.001
 
-# python3 main.py --save-networks --evaluation --env-id Hopper-v1 --log-dir baseline
-# python3 main.py --perform --env-id Hopper-v1 --log-dir perform
-# python3 main.py --use-expert --evaluation --env-id Hopper-v1 --log-dir expert
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low001 --seed 234 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low002 --seed 4563 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low003 --seed 8274 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low004 --seed 9981 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low005 --seed 19982 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low006 --seed 77819 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low007 --seed 99818 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low008 --seed 88982 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low009 --seed 99991 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low010 --seed 199918 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low011 --seed 222918 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low012 --seed 381771 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low013 --seed 200928 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low014 --seed 999182 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low015 --seed 827466 --actor-lr 0.0001 --critic-lr 0.001 &
+#python3 main.py --use-expert --evaluation --env-id Hopper-v2 --nb-epochs 1500 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --log-dir ppoexpert_1_25pre_4_long_low016 --seed 881773 --actor-lr 0.0001 --critic-lr 0.001
 
-# python3 main.py --save-networks --evaluation --env-id HumanoidStandup-v1 --log-dir baseline
-# python3 main.py --save-networks --evaluation --env-id HumanoidStandup-v1 --log-dir baseline
-# python3 main.py --save-networks --evaluation --env-id HumanoidStandup-v1 --log-dir baseline
-# python3 main.py --save-networks --evaluation --env-id HumanoidStandup-v1 --log-dir baseline
-# python3 main.py --perform --env-id HumanoidStandup-v1 --log-dir perform
-# mv ./saved_networks/* ./data/humanoid/saved_networks/
-# python3 main.py --save-networks --use-expert --evaluation --env-id HumanoidStandup-v1 --log-dir expert
-# python3 main.py --save-networks --use-expert --evaluation --env-id HumanoidStandup-v1 --log-dir expert
-# python3 main.py --save-networks --use-expert --evaluation --env-id HumanoidStandup-v1 --log-dir expert
-# python3 main.py --save-networks --use-expert --evaluation --env-id HumanoidStandup-v1 --log-dir expert
 
-# python3 main.py --save-networks --evaluation --env-id Walker2d-v1 --log-dir baseline
-# python3 main.py --perform --env-id Walker2d-v1 --log-dir perform
-# mkdir ./data/Walker2d-v1/
-# mkdir ./data/Walker2d-v1/saved_networks/
-# mv ./saved_networks/* ./data/Walker2d-v1/saved_networks/
-# python3 main.py --use-expert --evaluation --env-id Walker2d-v1 --log-dir expert
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_both_1_25pre_4_low_007 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --both-ours-sup --seed 323 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_both_1_25pre_4_low_008 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --both-ours-sup --seed 34522 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_both_1_25pre_4_low_009 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --both-ours-sup --seed 57937 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_both_1_25pre_4_low_010 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --both-ours-sup --seed 937729 --actor-lr 0.0001 --critic-lr 0.001 &
+#nohup python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_both_1_25pre_4_low_011 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --both-ours-sup --seed 38472 --actor-lr 0.0001 --critic-lr 0.001 &
+#python3 main.py --use-expert --evaluation --env-id Hopper-v2 --log-dir ppoexpert_both_1_25pre_4_low_012 --expert-dir ~/Projects/conda/demonstrations/Hopper_ppo2_low/expert.pkl --pre-epoch 25 --both-ours-sup --seed 92784 --actor-lr 0.0001 --critic-lr 0.001
 
-# python3 main.py --use-expert --evaluation --supervise --env-id HalfCheetah-v1 --log-dir supervise
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 10 --log-dir 10epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 20 --log-dir 20epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 30 --log-dir 30epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 40 --log-dir 40epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 50 --log-dir 50epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 60 --log-dir 60epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 70 --log-dir 70epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 80 --log-dir 80epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 90 --log-dir 90epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 100 --log-dir 100epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 110 --log-dir 110epoch
-# python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --pre-epoch 120 --log-dir 120epoch
 
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 100  --log-dir  100expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 178  --log-dir  178expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 316  --log-dir  316expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 562  --log-dir  562expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 1000  --log-dir  1000expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 1778  --log-dir  1778expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 3162  --log-dir  3162expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 5623  --log-dir  5623expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 10000  --log-dir  10000expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 17783  --log-dir  17783expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 31623  --log-dir  31623expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 56234  --log-dir  56234expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 100000  --log-dir  100000expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 177828  --log-dir  177828expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 316228  --log-dir  316228expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 562341  --log-dir  562341expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 1000000  --log-dir  1000000expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 1778279  --log-dir  1778279expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 3162278  --log-dir  3162278expert
-python3 main.py --use-expert --evaluation --env-id HalfCheetah-v1 --expert-limit 5623413  --log-dir  5623413expert
-
-# not working: humanoidstandup ant

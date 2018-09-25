@@ -17,7 +17,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
     normalize_returns, normalize_observations, critic_l2_reg, actor_lr, critic_lr, action_noise,
     popart, gamma, clip_norm, nb_train_steps, nb_rollout_steps, nb_eval_steps, batch_size, memory,
     tau=0.01, eval_env=None, param_noise_adaption_interval=50, perform=False, expert=None, save_networks=False,
-    supervise=False, pre_epoch=60, actor_only=False, critic_only=False, both_ours_sup=False):
+    supervise=False, pre_epoch=60, actor_only=False, critic_only=False, both_ours_sup=False, gail=False, pofd=False):
     rank = MPI.COMM_WORLD.Get_rank()
 
     assert (np.abs(env.action_space.low) == env.action_space.high).all()  # we assume symmetric actions.
@@ -28,7 +28,7 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
         batch_size=batch_size, action_noise=action_noise, param_noise=param_noise, critic_l2_reg=critic_l2_reg,
         actor_lr=actor_lr, critic_lr=critic_lr, enable_popart=popart, clip_norm=clip_norm,
         reward_scale=reward_scale, expert=expert, save_networks=save_networks, supervise=supervise, 
-        actor_only=actor_only, critic_only=critic_only, both_ours_sup=both_ours_sup)
+        actor_only=actor_only, critic_only=critic_only, both_ours_sup=both_ours_sup, gail=gail, pofd=pofd)
     logger.info('Using agent with the following configuration:')
     logger.info(str(agent.__dict__.items()))
 
@@ -123,7 +123,6 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                     # Train.
                     epoch_actor_losses = []
                     epoch_critic_losses = []
-                    epoch_dists = []
                     epoch_adaptive_distances = []
                     for t_train in range(nb_train_steps):
                         # Adapt param noise, if necessary.
@@ -131,10 +130,9 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                             distance = agent.adapt_param_noise()
                             epoch_adaptive_distances.append(distance)
 
-                        cl, al, d = agent.train(pretrain)
+                        cl, al = agent.train(pretrain)
                         epoch_critic_losses.append(cl)
                         epoch_actor_losses.append(al)
-                        epoch_dists.append(d)
                         agent.update_target_net()
 
                 # Evaluate.
@@ -185,10 +183,6 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
 
             # Rollout statistics.
             if not perform:
-                epoch_ave_dist = mpi_mean(epoch_dists)
-                # if epoch_ave_dist < 0.01 and pretrain:
-                
-
                 combined_stats['rollout/return'] = mpi_mean(epoch_episode_rewards)
                 combined_stats['rollout/return_history'] = mpi_mean(np.mean(episode_rewards_history))
                 combined_stats['rollout/episode_steps'] = mpi_mean(epoch_episode_steps)
@@ -200,7 +194,6 @@ def train(env, nb_epochs, nb_epoch_cycles, render_eval, reward_scale, render, pa
                 # Train statistics.
                 combined_stats['train/loss_actor'] = mpi_mean(epoch_actor_losses)
                 combined_stats['train/loss_critic'] = mpi_mean(epoch_critic_losses)
-                combined_stats['train/dist'] = epoch_ave_dist
                 combined_stats['train/param_noise_distance'] = mpi_mean(epoch_adaptive_distances)
 
             # Evaluation statistics.
