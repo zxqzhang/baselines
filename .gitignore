@@ -4,6 +4,8 @@
 .DS_Store
 .idea
 
+nohup.out
+
 # Setuptools distribution and build folders.
 /dist/
 /build
