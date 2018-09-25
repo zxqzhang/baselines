@@ -4,7 +4,7 @@
 .DS_Store
 .idea
 
-.out
+*.out
 
 # Setuptools distribution and build folders.
 /dist/
