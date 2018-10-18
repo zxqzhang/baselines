@@ -15,19 +15,33 @@ class Expert:
                              observation_shape=self.env.observation_space.shape)
         self.file_dir = None
 
-    def load_file(self, file_dir):
+    def load_file(self, file_dir, print_reward=False):
         self.file_dir = file_dir
         expert_file = open(self.file_dir, 'rb')
         expert_data = pickle.load(expert_file)
         expert_file.close()
         k = 0
+        if print_reward:
+            total_rew = 0.
+            ep_rew = 0.
+            nep = 1.
         for episode_sample in expert_data:
             for step_sample in episode_sample:
                 k = k+1
                 if k <= self.limit:
+                    if print_reward:
+                        ep_rew += step_sample[2]
+                        if step_sample[4]:
+                            nep += 1
+                            total_rew += ep_rew
+                            ep_rew = 0
                     self.memory.append(step_sample[0], step_sample[1], step_sample[2], step_sample[3], step_sample[4])
                 else:
+                    if print_reward:
+                        print('Successfully loaded expert files, average reward ',total_rew/nep)
                     return
+        if print_reward:
+            print('Successfully loaded expert files, average reward ',total_rew/nep)
 
     def load_file_trpo(self, file_dir):
         self.file_dir = file_dir
