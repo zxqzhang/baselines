@@ -103,4 +103,4 @@ class Expert:
             d_with_expert_data = discriminator(normalized_state, self.expert_action)
             d_with_gen_data = discriminator(obs0, actions, reuse=True)
             self.discriminator_loss = tf.reduce_mean(tf.log(d_with_gen_data))+tf.reduce_mean(tf.log(1-d_with_expert_data))
-            self.actor_loss = tf.reduce_mean(tf.log(d_with_gen_data))
+            self.actor_loss = -tf.reduce_mean(tf.log(d_with_gen_data))
